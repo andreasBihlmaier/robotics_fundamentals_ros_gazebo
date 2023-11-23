@@ -1,0 +1,309 @@
+<?xml version="1.0" ?>
+<!-- Modified version of pendulum_links.sdf with more reasonable inertia -->
+
+<sdf version="1.7">
+  <world name="damped_stiff_one_armed_bandit">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+       filename="libignition-gazebo-physics-system.so"
+        name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+        filename="libignition-gazebo-user-commands-system.so"
+        name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+        filename="libignition-gazebo-scene-broadcaster-system.so"
+        name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+          </plane>
+        </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="double_pendulum_with_base">
+      <link name="base">
+        <inertial>
+          <inertia>
+            <ixx>16</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>16</iyy>
+            <iyz>0</iyz>
+            <izz>32</izz>
+          </inertia>
+          <mass>100</mass>
+        </inertial>
+        <visual name="vis_plate_on_ground">
+          <pose>0 0 0.01 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.8</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <visual name="vis_pole">
+          <pose>-0.275 0 1.1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 0.2 2.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <collision name="col_plate_on_ground">
+          <pose>0 0 0.01 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.8</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <collision name="col_pole">
+          <pose>-0.275 0 1.1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 0.2 2.2</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+      <link name="upper_link">
+        <pose>0 0 2.1 0 0 0</pose>
+        <self_collide>0</self_collide>
+        <inertial>
+          <inertia>
+            <ixx>0.8583</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.8583</iyy>
+            <iyz>0</iyz>
+            <izz>0.05</izz>
+          </inertia>
+          <mass>10</mass>
+          <pose>0 0 0.5 0 0 0</pose>
+        </inertial>
+        <visual name="vis_upper_joint">
+          <pose>-0.05 0 0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <visual name="vis_lower_joint">
+          <pose>0 0 1.0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <visual name="vis_cylinder">
+          <pose>0 0 0.5 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.9</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <collision name="col_upper_joint">
+          <pose>-0.05 0 0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <collision name="col_lower_joint">
+          <pose>0 0 1.0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <collision name="col_cylinder">
+          <pose>0 0 0.5 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.9</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+      <link name="lower_link">
+        <pose>0.25 0 3.1 0 0 0</pose>
+        <self_collide>0</self_collide>
+        <inertial>
+          <inertia>
+            <ixx>0.21</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.21</iyy>
+            <iyz>0</iyz>
+            <izz>0.015</izz>
+          </inertia>
+          <mass>3</mass>
+          <pose>0 0 0.5 0 0 0</pose>
+        </inertial>
+        <visual name="vis_lower_joint">
+          <pose>0 0 0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.08</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <visual name="vis_cylinder">
+          <pose>0 0 0.5 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.9</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <collision name="col_lower_joint">
+          <pose>0 0 0 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.08</radius>
+              <length>0.3</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <collision name="col_cylinder">
+          <pose>0 0 0.5 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.9</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+      <joint name="upper_joint" type="revolute">
+        <parent>base</parent>
+        <child>upper_link</child>
+        <axis>
+          <xyz>1.0 0 0</xyz>
+          <dynamics>
+            <damping>0.5</damping>
+            <!-- <friction>1.0</friction> -->
+          </dynamics>
+        </axis>
+      </joint>
+      <joint name="lower_joint" type="fixed">
+        <parent>upper_link</parent>
+        <child>lower_link</child>
+        <axis>
+          <xyz>1.0 0 0</xyz>
+        </axis>
+      </joint>
+
+      <plugin
+        filename="ignition-gazebo-apply-joint-force-system"
+        name="gz::sim::systems::ApplyJointForce">
+        <joint_name>upper_joint</joint_name>
+      </plugin>
+      <plugin
+        filename="ignition-gazebo-joint-state-publisher-system"
+        name="gz::sim::systems::JointStatePublisher"></plugin>
+      <plugin
+        filename="ignition-gazebo-pose-publisher-system"
+        name="gz::sim::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_visual_pose>false</publish_visual_pose>
+        <publish_collision_pose>false</publish_collision_pose>
+        <publish_sensor_pose>false</publish_sensor_pose>
+        <publish_nested_model_pose>true</publish_nested_model_pose>
+        <publish_model_pose>true</publish_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <update_frequency>100</update_frequency>
+      </plugin>
+    </model>
+  </world>
+</sdf>
